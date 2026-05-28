@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import { Inter, Outfit } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { RecruiterModeProvider } from "@/components/RecruiterModeContext";
 import { Cursor } from "@/components/ui/Cursor";
 import { Background } from "@/components/ui/Background";
+import { Navbar } from "@/components/Navbar";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -28,7 +30,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={\`\${inter.variable} \${outfit.variable} min-h-screen antialiased selection:bg-accent-primary/30\`}
+        className={`${inter.variable} ${outfit.variable} min-h-screen antialiased selection:bg-accent-primary/30`}
       >
         <ThemeProvider
           attribute="class"
@@ -36,9 +38,12 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Background />
-          <Cursor />
-          {children}
+          <RecruiterModeProvider>
+            <Background />
+            <Cursor />
+            <Navbar />
+            <main>{children}</main>
+          </RecruiterModeProvider>
         </ThemeProvider>
       </body>
     </html>

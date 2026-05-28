@@ -56,10 +56,9 @@ export function Background() {
 
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-        ctx.fillStyle = \`rgba(\${baseColor}, \${p.alpha})\`;
+        ctx.fillStyle = `rgba(${baseColor}, ${p.alpha})`;
         ctx.fill();
 
-        // Draw connecting lines
         for (let j = index + 1; j < particles.length; j++) {
           const p2 = particles[j];
           const dx = p.x - p2.x;
@@ -70,7 +69,7 @@ export function Background() {
             ctx.beginPath();
             ctx.moveTo(p.x, p.y);
             ctx.lineTo(p2.x, p2.y);
-            ctx.strokeStyle = \`rgba(\${baseColor}, \${0.1 - distance / 1000})\`;
+            ctx.strokeStyle = `rgba(${baseColor}, ${0.1 - distance / 1000})`;
             ctx.lineWidth = 0.5;
             ctx.stroke();
           }
