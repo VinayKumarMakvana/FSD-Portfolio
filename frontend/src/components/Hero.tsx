@@ -7,6 +7,7 @@ import { useRecruiterMode } from "./RecruiterModeContext";
 
 const titles = [
   "Full Stack Developer",
+  "AI Engineer",
   "React Developer",
   "Backend Engineer",
   "Problem Solver",
@@ -115,13 +116,10 @@ export function Hero() {
             <div className="w-full h-full rounded-xl overflow-hidden relative border border-foreground/10 glass flex items-center justify-center">
               {/* Animated glowing placeholder until user adds their image */}
               <div className="absolute inset-0 bg-gradient-to-t from-accent-primary/20 to-transparent opacity-50" />
-              <motion.div 
-                animate={{ y: [-10, 10, -10] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                className="relative z-10 p-8 rounded-full bg-foreground/5 border border-foreground/10 shadow-[0_0_50px_rgba(0,242,254,0.3)]"
-              >
-                <Code2 className="w-20 h-20 text-accent-primary" />
-              </motion.div>
+              <img
+                src="./img/vinay.png"
+                alt="Vinay Kumar Makvana"
+                />
               
               <div className="absolute bottom-4 left-0 w-full text-center text-xs text-foreground/40 font-mono tracking-widest uppercase">
                 &lt; Developer /&gt;
@@ -138,7 +136,7 @@ export function Hero() {
                   className="absolute -bottom-6 -right-6 glass p-4 rounded-xl shadow-xl z-30 border border-accent-secondary/30"
                 >
                   <div className="text-sm font-bold text-accent-secondary">Top Skills</div>
-                  <div className="text-xs text-foreground/80 mt-1">Python • Node.js • React • Java</div>
+                  <div className="text-xs text-foreground/80 mt-1">Java • React • Node.js • Python • AI</div>
                 </motion.div>
               )}
             </AnimatePresence>

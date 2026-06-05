@@ -1,53 +1,31 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { motion, useMotionValue, useSpring, useTransform, useMotionTemplate } from "framer-motion";
-import { ExternalLink, Code2, Layers, Server, Cpu, Database } from "lucide-react";
+import { useRef, useState, useEffect } from "react";
+import { motion, useMotionValue, useSpring, useTransform, useMotionTemplate, AnimatePresence } from "framer-motion";
+import { ExternalLink, Code2, Layers, Server, Cpu, Database, ChevronLeft, ChevronRight } from "lucide-react";
 
 const projects = [
   {
-    title: "Advanced E-commerce",
-    desc: "A highly scalable e-commerce system with Role Based Access Control, secure payment gateways, and a comprehensive admin dashboard.",
-    tech: ["Next.js", "Node.js", "MongoDB", "Stripe"],
-    features: ["Role Based Permissions", "Wishlist & Reviews"],
+    title: "Interview AI",
+    desc: "An AI-powered career coach and resume builder platform that helps users prepare for interviews, tailor resumes, and identify skill gaps.",
+    tech: ["React", "Node.js", "Gemini AI", "MERN Stack"],
+    features: ["Career Coach", "Resume Builder"],
+    icon: <Cpu className="w-5 h-5 sm:w-6 sm:h-6" />,
+    github: "https://github.com/VinayKumarMakvana/Interview-Plan",
+    live: "https://interview-plan-blue.vercel.app/",
+    color: "rgba(16, 185, 129, 0.5)", // emerald-500
+    images: ["/interview-preview1.png", "/interview-preview3.png","/interview-preview2.png"],
+  },
+  {
+    title: "VINAY'S-Portfolio",
+    desc: "A full-stack developer portfolio built with modern web technologies and concepts.",
+    tech: ["React", "Node.js", "Tailwind CSS", "Framer Motion"],
+    features: ["Smooth Animations", "Responsive Design"],
     icon: <Layers className="w-5 h-5 sm:w-6 sm:h-6" />,
-    github: "#",
+    github: "https://github.com/VinayKumarMakvana/VINAY-S-Portfolio",
     live: "#",
     color: "rgba(59, 130, 246, 0.5)", // blue-500
-    image: "https://images.unsplash.com/photo-1557821552-17105176677c?q=80&w=800&auto=format&fit=crop",
-  },
-  {
-    title: "Real-Time Chat App",
-    desc: "High-performance messaging architecture supporting group chats, encrypted file sharing, and real-time typing indicators.",
-    tech: ["React", "Socket.io", "Express"],
-    features: ["Typing Indicators", "Group Chat"],
-    icon: <Server className="w-5 h-5 sm:w-6 sm:h-6" />,
-    github: "#",
-    live: "#",
-    color: "rgba(16, 185, 129, 0.5)", // emerald-500
-    image: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=800&auto=format&fit=crop",
-  },
-  {
-    title: "AI SaaS Dashboard",
-    desc: "A production-ready subscription platform integrating advanced AI models for text and image generation, with usage analytics.",
-    tech: ["Next.js", "OpenAI", "Prisma", "PostgreSQL"],
-    features: ["AI Integration", "Payment System"],
-    icon: <Cpu className="w-5 h-5 sm:w-6 sm:h-6" />,
-    github: "#",
-    live: "#",
-    color: "rgba(168, 85, 247, 0.5)", // purple-500
-    image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=800&auto=format&fit=crop",
-  },
-  {
-    title: "Task Management System",
-    desc: "Collaborative kanban board engine featuring optimistic UI updates, complex drag-and-drop mechanics, and team role management.",
-    tech: ["TypeScript", "React DND", "Node.js"],
-    features: ["Drag and Drop", "Real-time Collab"],
-    icon: <Database className="w-5 h-5 sm:w-6 sm:h-6" />,
-    github: "#",
-    live: "#",
-    color: "rgba(245, 158, 11, 0.5)", // amber-500
-    image: "https://images.unsplash.com/photo-1611224923853-80b023f02d71?q=80&w=800&auto=format&fit=crop",
+    images: [ "/VINAY'S-Portfolio.png","/VINAY'S-Portfolio1.png", "/VINAY'S-Portfolio2.png"],
   }
 ];
 
@@ -71,6 +49,32 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
   const background = useMotionTemplate`radial-gradient(400px circle at ${mouseX}px ${mouseY}px, ${project.color}, transparent 40%)`;
 
   const [isHovered, setIsHovered] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  useEffect(() => {
+    if (project.images && project.images.length > 0) {
+      const timer = setInterval(() => {
+        setCurrentImageIndex((prev) => (prev + 1) % project.images.length);
+      }, 3000);
+      return () => clearInterval(timer);
+    }
+  }, [project.images]);
+
+  const nextImage = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (project.images) {
+      setCurrentImageIndex((prev) => (prev + 1) % project.images.length);
+    }
+  };
+
+  const prevImage = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (project.images) {
+      setCurrentImageIndex((prev) => (prev - 1 + project.images.length) % project.images.length);
+    }
+  };
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!ref.current) return;
@@ -127,21 +131,66 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
 
       <div className="relative z-20 p-5 flex flex-col h-full">
         
-        {/* Project Image Preview */}
+        {/* Project Image Slider */}
         <div 
-          className="w-full h-32 sm:h-40 rounded-xl overflow-hidden mb-4 relative group/img border border-foreground/10"
+          className="w-full h-40 sm:h-48 rounded-xl overflow-hidden mb-4 relative group/slider border border-foreground/10"
           style={{ transform: "translateZ(20px)" }}
         >
-          <img 
-            src={project.image} 
-            alt={project.title} 
-            className="w-full h-full object-cover transition-transform duration-700 group-hover/img:scale-110"
-          />
+          {project.images && project.images.length > 0 ? (
+            <>
+              <AnimatePresence mode="wait">
+                <motion.img 
+                  key={currentImageIndex}
+                  src={project.images[currentImageIndex]} 
+                  alt={`${project.title} - preview ${currentImageIndex + 1}`}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.5 }}
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover/slider:scale-105"
+                />
+              </AnimatePresence>
+
+              {/* Slider Controls */}
+              {project.images.length > 1 && (
+                <>
+                  <button 
+                    onClick={prevImage}
+                    className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-background/60 backdrop-blur-md border border-foreground/20 flex items-center justify-center text-foreground/90 opacity-0 group-hover/slider:opacity-100 transition-opacity duration-300 hover:bg-foreground/20 z-30 shadow-lg"
+                  >
+                    <ChevronLeft className="w-5 h-5" />
+                  </button>
+                  
+                  <button 
+                    onClick={nextImage}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-background/60 backdrop-blur-md border border-foreground/20 flex items-center justify-center text-foreground/90 opacity-0 group-hover/slider:opacity-100 transition-opacity duration-300 hover:bg-foreground/20 z-30 shadow-lg"
+                  >
+                    <ChevronRight className="w-5 h-5" />
+                  </button>
+
+                  {/* Dots Indicator */}
+                  <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1.5 z-30 bg-background/40 backdrop-blur-md px-2 py-1 rounded-full">
+                    {project.images.map((_, i) => (
+                      <div 
+                        key={i} 
+                        className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${i === currentImageIndex ? 'bg-white w-3' : 'bg-white/50'}`}
+                      />
+                    ))}
+                  </div>
+                </>
+              )}
+            </>
+          ) : (
+            <div className="w-full h-full bg-foreground/5 flex items-center justify-center">
+              <span className="text-foreground/50 text-sm">No Image</span>
+            </div>
+          )}
+
           {/* Subtle overlay that disappears on hover */}
-          <div className="absolute inset-0 bg-background/40 group-hover/img:bg-transparent transition-colors duration-500" />
+          <div className="absolute inset-0 bg-background/40 group-hover/slider:bg-transparent transition-colors duration-500 z-10 pointer-events-none" />
           
           {/* Floating Icon over the image */}
-          <div className="absolute top-3 left-3 w-10 h-10 rounded-xl glass border border-foreground/20 flex items-center justify-center text-foreground/90">
+          <div className="absolute top-3 left-3 w-10 h-10 rounded-xl glass border border-foreground/20 flex items-center justify-center text-foreground/90 z-20 pointer-events-none">
             {project.icon}
           </div>
         </div>

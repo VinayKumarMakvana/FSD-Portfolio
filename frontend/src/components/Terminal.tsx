@@ -50,7 +50,7 @@ export function Terminal() {
         window.location.hash = "#projects";
         break;
       case "contact":
-        output = "Email: vinay@example.com | GitHub: github.com/vinaymakvana";
+        output = "Email: vkmakvana.dev@gmail.com | GitHub: github.com/VinayKumarMakvana";
         break;
       case "clear":
         setHistory([]);

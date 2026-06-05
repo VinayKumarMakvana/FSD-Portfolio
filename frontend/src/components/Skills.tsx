@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import React from "react";
-import { Layout, Server, Database } from "lucide-react";
+import { Layout, Server, Database, Brain } from "lucide-react";
 
 const skillsData = [
   {
@@ -30,7 +30,7 @@ const skillsData = [
       { name: "REST APIs" },
       { name: "Authentication (JWT)" },
       { name: "Python" },
-      { name: "Java" },
+      { name: "Core Java" },
     ],
   },
   {
@@ -45,6 +45,18 @@ const skillsData = [
       { name: "Postman" },
       { name: "Vercel" },
       { name: "AWS" },
+    ],
+  },
+  {
+    category: "AI & Machine Learning",
+    icon: <Brain className="w-6 h-6 text-rose-400" />,
+    gradient: "from-rose-400/20 to-transparent",
+    skills: [
+      { name: "GenAI" },
+      { name: "Agentic AI" },
+      { name: "LLMs" },
+      { name: "Prompt Engineering" },
+      { name: "LangChain" },
     ],
   },
 ];
@@ -77,7 +89,7 @@ export function Skills() {
           </p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-3 gap-6 md:gap-8 max-w-6xl mx-auto">
+        <div className="grid md:grid-cols-2 gap-6 md:gap-8 max-w-5xl mx-auto">
           {skillsData.map((category, catIdx) => (
             <motion.div
               key={category.category}

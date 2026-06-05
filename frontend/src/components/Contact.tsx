@@ -20,15 +20,21 @@ export function Contact() {
     setErrorMsg("");
 
     try {
-      const response = await axios.post("http://localhost:5000/api/contact", formData);
+      const response = await axios.post(`${process.env.BACKEND_URL}/api/contact`, formData);
       if (response.data.success) {
         setStatus("success");
         setFormData({ name: "", email: "", subject: "", message: "" });
         setTimeout(() => setStatus("idle"), 5000);
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       setStatus("error");
-      setErrorMsg(err.response?.data?.error || err.response?.data?.message || "Something went wrong. Please try again.");
+      if (axios.isAxiosError(err)) {
+        setErrorMsg(err.response?.data?.error || err.response?.data?.message || "Something went wrong. Please try again.");
+      } else if (err instanceof Error) {
+        setErrorMsg(err.message);
+      } else {
+        setErrorMsg("Something went wrong. Please try again.");
+      }
     }
   };
 
