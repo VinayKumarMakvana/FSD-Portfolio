@@ -23,7 +23,7 @@ const projects = [
     features: ["Smooth Animations", "Responsive Design"],
     icon: <Layers className="w-5 h-5 sm:w-6 sm:h-6" />,
     github: "https://github.com/VinayKumarMakvana/VINAY-S-Portfolio",
-    live: "#",
+    live: "https://vinay-s-portfolio-phi.vercel.app/",
     color: "rgba(59, 130, 246, 0.5)", // blue-500
     images: [ "/VINAY'S-Portfolio.png","/VINAY'S-Portfolio1.png", "/VINAY'S-Portfolio2.png"],
   }
