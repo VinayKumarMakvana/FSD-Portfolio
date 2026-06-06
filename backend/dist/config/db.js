@@ -8,14 +8,11 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const connectDB = async () => {
     try {
         const conn = await mongoose_1.default.connect(process.env.MONGODB_URI || "mongodb://localhost:27017/portfolio");
-        console.log(`MongoDB Connected: \${conn.connection.host}\`);
-  } catch (error) {
-    console.error("Error connecting to MongoDB:", error);
-    process.exit(1);
-  }
-};
-        );
+        console.log(`MongoDB Connected: ${conn.connection.host}`);
     }
-    finally { }
+    catch (error) {
+        console.error("Error connecting to MongoDB:", error);
+        process.exit(1);
+    }
 };
 exports.connectDB = connectDB;

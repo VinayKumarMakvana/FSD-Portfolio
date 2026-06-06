@@ -20,7 +20,8 @@ export function Contact() {
     setErrorMsg("");
 
     try {
-      const response = await axios.post(`${process.env.BACKEND_URL}/api/contact`, formData);
+      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5000";
+      const response = await axios.post(`${backendUrl}/api/contact`, formData);
       if (response.data.success) {
         setStatus("success");
         setFormData({ name: "", email: "", subject: "", message: "" });

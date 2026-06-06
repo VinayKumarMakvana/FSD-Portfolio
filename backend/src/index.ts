@@ -16,8 +16,22 @@ connectDB();
 
 // Middleware
 app.use(helmet());
+
+// Configure CORS
+const frontendUrls = [
+  process.env.FRONTEND_URL?.replace(/\/$/, ""), // remove trailing slash if any
+  "http://localhost:3000",
+  "http://localhost:3001"
+].filter(Boolean);
+
 app.use(cors({
-  origin: process.env.FRONTEND_URL || "http://localhost:3000",
+  origin: (origin, callback) => {
+    if (!origin || frontendUrls.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true
 }));
 app.use(express.json());

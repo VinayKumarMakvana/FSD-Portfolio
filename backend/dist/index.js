@@ -17,8 +17,21 @@ const PORT = process.env.PORT || 5000;
 (0, db_1.connectDB)();
 // Middleware
 app.use((0, helmet_1.default)());
+// Configure CORS
+const frontendUrls = [
+    process.env.FRONTEND_URL?.replace(/\/$/, ""), // remove trailing slash if any
+    "http://localhost:3000",
+    "http://localhost:3001"
+].filter(Boolean);
 app.use((0, cors_1.default)({
-    origin: process.env.FRONTEND_URL || "http://localhost:3000",
+    origin: (origin, callback) => {
+        if (!origin || frontendUrls.includes(origin)) {
+            callback(null, true);
+        }
+        else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
     credentials: true
 }));
 app.use(express_1.default.json());
@@ -39,7 +52,5 @@ app.get("/health", (req, res) => {
 });
 // Start Server
 app.listen(PORT, () => {
-    console.log(`Server running in \${process.env.NODE_ENV || 'development'} mode on port \${PORT}\`);
-});
-    );
+    console.log(`Server running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`);
 });
